@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Y UT BKRONG SHOP - Khách hàng</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#080b12;
+    color:#fff;
+}
+
+header{
+    background:#111720;
+    border-bottom:1px solid #293342;
+    padding:15px;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.header{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.logo span{
+    color:#8b5cf6;
+}
+
+button{
+    border:0;
+    border-radius:10px;
+    padding:11px 15px;
+    background:#6d4aff;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button.secondary{
+    background:#252f3e;
+}
+
+button.danger{
+    background:#dc3545;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px 15px 50px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#17122b,#111827);
+    border:1px solid #34304b;
+    border-radius:20px;
+    padding:35px 20px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.muted{
+    color:#9ca8b5;
+}
+
+.section{
+    margin-top:20px;
+}
+
+.section-title{
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:14px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:#141b24;
+    border:1px solid #293440;
+    border-radius:16px;
+    padding:18px;
+}
+
+.product-icon{
+    height:120px;
+    border-radius:12px;
+    background:#211a39;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+.price{
+    color:#a78bfa;
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.buy{
+    width:100%;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    z-index:100;
+}
+
+.modal-box{
+    width:100%;
+    max-width:430px;
+    background:#111827;
+    border:1px solid #303b4c;
+    border-radius:18px;
+    padding:20px;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    background:#0b0f17;
+    color:white;
+    border:1px solid #344052;
+    border-radius:10px;
+}
+
+.form-button{
+    width:100%;
+    margin-top:8px;
+}
+
+.close{
+    float:right;
+    background:#273142;
+    width:32px;
+    height:32px;
+    padding:0;
+}
+
+.user-info{
+    display:none;
+    align-items:center;
+    gap:8px;
+}
+
+.balance{
+    background:#172238;
+    padding:9px 12px;
+    border-radius:10px;
+    color:#9fe870;
+    font-weight:bold;
+}
+
+.order{
+    margin-top:10px;
+    padding:14px;
+    background:#0d1420;
+    border:1px solid #283344;
+    border-radius:12px;
+}
+
+footer{
+    text-align:center;
+    color:#657083;
+    padding:25px;
+    border-top:1px solid #202938;
+}
+
+@media(max-width:600px){
+    .hero h1{
+        font-size:27px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+<div class="logo">
+Y UT <span>BKRONG SHOP</span>
+</div>
+
+<div id="guestButtons">
+
+<button onclick="openModal('loginModal')">
+Đăng nhập
+</button>
+
+<button onclick="openModal('registerModal')">
+Đăng ký
+</button>
+
+</div>
+
+<div id="userInfo" class="user-info">
+
+<span id="username"></span>
+
+<span class="balance" id="balance">
+0đ
+</span>
+
+<button class="secondary" onclick="openWallet()">
+Ví
+</button>
+
+<button class="danger" onclick="logout()">
+Thoát
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+<section class="hero">
+
+<h1>Y UT BKRONG SHOP</h1>
+
+<p class="muted">
+Chào mừng bạn đến cửa hàng.
+Hãy đăng ký tài khoản để mua hàng.
+</p>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+🛍️ Sản phẩm
+</div>
+
+<div id="products" class="grid"></div>
+
+</section>
+
+
+<section class="section">
+
+<div class="section-title">
+📦 Đơn hàng của tôi
+</div>
+
+<div id="orders" class="card">
+Chưa có đơn hàng.
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+© 2026 Y UT BKRONG SHOP
+</footer>
+
+
+<!-- ĐĂNG NHẬP -->
+
+<div id="loginModal" class="modal">
+
+<div class="modal-box">
+
+<button class="close"
+onclick="closeModal('loginModal')">
+×
+</button>
+
+<h2>Đăng nhập</h2>
+
+<input
+id="loginUsername"
+placeholder="Tên tài khoản">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Mật khẩu">
+
+<button
+class="form-button"
+onclick="login()">
+Đăng nhập
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ĐĂNG KÝ -->
+
+<div id="registerModal" class="modal">
+
+<div class="modal-box">
+
+<button class="close"
+onclick="closeModal('registerModal')">
+×
+</button>
+
+<h2>Tạo tài khoản</h2>
+
+<input
+id="registerUsername"
+placeholder="Tên tài khoản">
+
+<input
+id="registerPassword"
+type="password"
+placeholder="Mật khẩu">
+
+<input
+id="registerPassword2"
+type="password"
+placeholder="Nhập lại mật khẩu">
+
+<button
+class="form-button"
+onclick="register()">
+Tạo tài khoản
+</button>
+
+</div>
+
+</div>
+
+
+<!-- VÍ -->
+
+<div id="walletModal" class="modal">
+
+<div class="modal-box">
+
+<button class="close"
+onclick="closeModal('walletModal')">
+×
+</button>
+
+<h2>💰 Ví của tôi</h2>
+
+<p>
+Số dư:
+<strong id="walletBalance">0đ</strong>
+</p>
+
+<hr style="margin:15px 0;border-color:#293440">
+
+<p class="muted">
+Đây là bản HTML demo. Nạp tiền thật cần kết nối server/database.
+</p>
+
+</div>
+
+</div>
+
+
+<script>
+
+const USERS_KEY="yut_users";
+const CURRENT_KEY="yut_current";
+
+let currentUser=
+localStorage.getItem(CURRENT_KEY);
+
+
+function getUsers(){
+
+return JSON.parse(
+localStorage.getItem(USERS_KEY)||"{}"
+);
+
+}
+
+
+function saveUsers(users){
+
+localStorage.setItem(
+USERS_KEY,
+JSON.stringify(users)
+);
+
+}
+
+
+function getUser(){
+
+if(!currentUser) return null;
+
+const users=getUsers();
+
+return users[currentUser]||null;
+
+}
+
+
+function money(number){
+
+return Number(number).toLocaleString("vi-VN")+"đ";
+
+}
+
+
+function openModal(id){
+
+document.getElementById(id).style.display="flex";
+
+}
+
+
+function closeModal(id){
+
+document.getElementById(id).style.display="none";
+
+}
+
+
+function register(){
+
+const username=
+document.getElementById("registerUsername").value.trim();
+
+const password=
+document.getElementById("registerPassword").value;
+
+const password2=
+document.getElementById("registerPassword2").value;
+
+
+if(!username||!password){
+
+alert("Vui lòng nhập đầy đủ thông tin.");
+
+return;
+
+}
+
+
+if(password.length<6){
+
+alert("Mật khẩu phải có ít nhất 6 ký tự.");
+
+return;
+
+}
+
+
+if(password!==password2){
+
+alert("Mật khẩu nhập lại không khớp.");
+
+return;
+
+}
+
+
+const users=getUsers();
+
+
+if(users[username]){
+
+alert("Tên tài khoản đã tồn tại.");
+
+return;
+
+}
+
+
+users[username]={
+
+username:username,
+
+password:password,
+
+balance:0,
+
+orders:[]
+
+};
+
+
+saveUsers(users);
+
+
+currentUser=username;
+
+localStorage.setItem(
+CURRENT_KEY,
+username
+);
+
+
+closeModal("registerModal");
+
+updateUI();
+
+alert("Đăng ký thành công!");
+
+}
+
+
+function login(){
+
+const username=
+document.getElementById("loginUsername").value.trim();
+
+const password=
+document.getElementById("loginPassword").value;
+
+
+const users=getUsers();
+
+
+if(
+!users[username]||
+users[username].password!==password
+){
+
+alert("Sai tài khoản hoặc mật khẩu.");
+
+return;
+
+}
+
+
+currentUser=username;
+
+localStorage.setItem(
+CURRENT_KEY,
+username
+);
+
+
+closeModal("loginModal");
+
+updateUI();
+
+alert("Đăng nhập thành công!");
+
+}
+
+
+function logout(){
+
+currentUser=null;
+
+localStorage.removeItem(CURRENT_KEY);
+
+updateUI();
+
+}
+
+
+function updateUI(){
+
+const user=getUser();
+
+if(user){
+
+document.getElementById("guestButtons")
+.style.display="none";
+
+document.getElementById("userInfo")
+.style.display="flex";
+
+document.getElementById("username")
+.textContent=user.username;
+
+document.getElementById("balance")
+.textContent=money(user.balance);
+
+renderOrders();
+
+}else{
+
+document.getElementById("guestButtons")
+.style.display="block";
+
+document.getElementById("userInfo")
+.style.display="none";
+
+document.getElementById("orders")
+.innerHTML="Đăng nhập để xem đơn hàng.";
+
+}
+
+renderProducts();
+
+}
+
+
+function renderProducts(){
+
+const products=[
+
+{
+name:"Gói VIP #1",
+price:20000,
+icon:"🎮"
+},
+
+{
+name:"Gói VIP #2",
+price:50000,
+icon:"🔥"
+},
+
+{
+name:"Gói VIP #3",
+price:100000,
+icon:"💎"
+}
+
+];
+
+
+document.getElementById("products").innerHTML=
+
+products.map((p,index)=>`
+
+<div class="card">
+
+<div class="product-icon">
+${p.icon}
+</div>
+
+<h3>
+${p.name}
+</h3>
+
+<p class="muted">
+Sản phẩm kỹ thuật số.
+</p>
+
+<div class="price">
+${money(p.price)}
+</div>
+
+<button
+class="buy"
+onclick="buyProduct(${index})">
+
+Mua ngay
+
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function buyProduct(index){
+
+const products=[
+
+{
+name:"Gói VIP #1",
+price:20000
+},
+
+{
+name:"Gói VIP #2",
+price:50000
+},
+
+{
+name:"Gói VIP #3",
+price:100000
+}
+
+];
+
+
+const user=getUser();
+
+
+if(!user){
+
+alert("Bạn cần đăng nhập trước.");
+
+openModal("loginModal");
+
+return;
+
+}
+
+
+const product=products[index];
+
+
+if(user.balance<product.price){
+
+alert(
+"Số dư không đủ.\n"+
+"Giá: "+money(product.price)+"\n"+
+"Số dư: "+money(user.balance)
+);
+
+openWallet();
+
+return;
+
+}
+
+
+if(!confirm(
+"Xác nhận mua "+product.name+"?"
+)) return;
+
+
+const users=getUsers();
+
+user.balance-=product.price;
+
+
+user.orders.push({
+
+product:product.name,
+
+price:product.price,
+
+time:new Date().toLocaleString("vi-VN"),
+
+status:"Đã thanh toán"
+
+});
+
+
+users[currentUser]=user;
+
+saveUsers(users);
+
+updateUI();
+
+alert("Mua hàng thành công!");
+
+}
+
+
+function renderOrders(){
+
+const user=getUser();
+
+if(!user||
+!user.orders||
+!user.orders.length){
+
+document.getElementById("orders")
+.innerHTML="Chưa có đơn hàng.";
+
+return;
+
+}
+
+
+document.getElementById("orders").innerHTML=
+
+user.orders
+.slice()
+.reverse()
+.map(order=>`
+
+<div class="order">
+
+<strong>
+${order.product}
+</strong>
+
+<br>
+
+Giá:
+${money(order.price)}
+
+<br>
+
+Thời gian:
+${order.time}
+
+<br>
+
+Trạng thái:
+<span style="color:#72e6a1">
+${order.status}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+
+function openWallet(){
+
+const user=getUser();
+
+if(!user){
+
+openModal("loginModal");
+
+return;
+
+}
+
+document.getElementById("walletBalance")
+.textContent=money(user.balance);
+
+openModal("walletModal");
+
+}
+
+
+updateUI();
+
+</script>
+
+</body>
+</html>
